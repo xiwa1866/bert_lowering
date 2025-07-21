@@ -18,10 +18,12 @@ text = re.sub(
     flags=re.DOTALL
 )
 
-# 2) Replace every dense_resource<...> with a zero‑filled dense<0.0>
+# 2) Replace every dense_resource<...> with a dummy tensor of <0.001>
+# The reason why not putting zero is to avoid constant-folding and other attempted optimizations 
+# such that we still have valid benchmarks with original graph
 text = re.sub(
     r'dense_resource<[^>]+>',
-    'dense<0.0>',
+    'dense<0.001>',
     text
 )
 
